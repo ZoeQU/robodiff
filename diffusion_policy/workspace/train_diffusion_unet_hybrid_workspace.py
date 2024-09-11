@@ -105,6 +105,7 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
 
         # configure env
         env_runner: BaseImageRunner
+
         env_runner = hydra.utils.instantiate(
             cfg.task.env_runner,
             output_dir=self.output_dir)
@@ -256,10 +257,13 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                 # checkpoint
                 if (self.epoch % cfg.training.checkpoint_every) == 0:
                     # checkpointing
-                    if cfg.checkpoint.save_last_ckpt:
-                        self.save_checkpoint()
-                    if cfg.checkpoint.save_last_snapshot:
-                        self.save_snapshot()
+                    try:
+                        if cfg.checkpoint.save_last_ckpt:
+                            self.save_checkpoint()
+                        if cfg.checkpoint.save_last_snapshot:
+                            self.save_snapshot()
+                    except Exception as e:
+                        print(f"Error saving checkpoint or snapshot : {e}")
 
                     # sanitize metric names
                     metric_dict = dict()
@@ -273,7 +277,10 @@ class TrainDiffusionUnetHybridWorkspace(BaseWorkspace):
                     topk_ckpt_path = topk_manager.get_ckpt_path(metric_dict)
 
                     if topk_ckpt_path is not None:
-                        self.save_checkpoint(path=topk_ckpt_path)
+                        try:
+                            self.save_checkpoint(path=topk_ckpt_path)
+                        except Exception as e:
+                            print(f"Error saving top-k checkpoint: {e}")
                 # ========= eval end for this epoch ==========
                 policy.train()
 

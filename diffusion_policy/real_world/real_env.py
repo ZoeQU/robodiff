@@ -50,7 +50,7 @@ class RealEnv:
             tcp_offset=0.13,
             init_joints=False,
             # video capture params
-            video_capture_fps=30,
+            video_capture_fps=15, #30
             video_capture_resolution=(1280,720),
             # saving params
             record_raw_video=True,
@@ -153,7 +153,7 @@ class RealEnv:
         cube_diag = np.linalg.norm([1,1,1])
         j_init = np.array([0,-90,-90,-90,90,0]) / 180 * np.pi
         if not init_joints:
-            j_init = None
+            j_init = None 
 
         robot = RTDEInterpolationController(
             shm_manager=shm_manager,
@@ -240,7 +240,7 @@ class RealEnv:
         self.stop()
 
     # ========= async env API ===========
-    def get_obs(self) -> dict:
+    def  get_obs(self) -> dict:
         "observation dict"
         assert self.is_ready
 

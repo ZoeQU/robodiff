@@ -16,7 +16,8 @@ def test():
     serials = SingleRealsense.get_connected_devices_serial()
     # import pdb; pdb.set_trace()
     serial = serials[0]
-    config = json.load(open('/home/cchi/dev/diffusion_policy/diffusion_policy/real_world/realsense_config/415_high_accuracy_mode.json', 'r'))
+    # config = json.load(open('/home/cchi/dev/diffusion_policy/diffusion_policy/real_world/realsense_config/415_high_accuracy_mode.json', 'r'))
+    config = json.load(open('/home/ubuntu/diffusion_policy/diffusion_policy/real_world/realsense_config/435_high_accuracy_mode.json', 'r'))
 
     def transform(data):
         color = data['color']
@@ -36,7 +37,7 @@ def test():
             resolution=(1280,720),
             # resolution=(960,540),
             # resolution=(640,480),
-            capture_fps=30,
+            capture_fps=15, #30 (ori)
             enable_color=True,
             # enable_depth=True,
             # enable_infrared=True,
@@ -51,7 +52,7 @@ def test():
             print(intr)
 
 
-            video_path = 'data_local/test.mp4'
+            video_path = 'data/test.mp4'
             rec_start_time = time.time() + 2
             realsense.start_recording(video_path, start_time=rec_start_time)
 

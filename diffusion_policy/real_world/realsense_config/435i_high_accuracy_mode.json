@@ -88,7 +88,11 @@
     "param-usersm": "1",
     "param-zunits": "1000",
     "stream-depth-format": "Z16",
-    "stream-fps": "15",
+    "stream-fps": "30",
     "stream-height": "480",
-    "stream-width": "848"
+    "stream-width": "848",
+    "enable_gyro": "True",
+    "enable_accel": "True",
+    "gyro_fps": "200",
+    "accel_fps": "200"
 }
