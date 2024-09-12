@@ -1,2 +1,0 @@
-# robodiff
-diffusion-policy-dev
