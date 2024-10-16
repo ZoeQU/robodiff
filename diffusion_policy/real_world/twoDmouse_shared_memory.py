@@ -17,8 +17,8 @@ class MouseController(mp.Process):
                  max_value=500, 
                  deadzone=(0, 0, 0, 0, 0, 0), 
                  dtype=np.float32, 
-                 n_buttons=2,
-                 device_path='/dev/input/event21'): # Path for evdev mouse
+                 n_buttons=6,
+                 device_path='/dev/input/event7'): # Path for evdev mouse # sudo evtest #find which device # (if meet error: permission denied) sudo chmod 666 /dev/input/event7
         super().__init__()
         if np.issubdtype(type(deadzone), np.number):
             deadzone = np.full(6, fill_value=deadzone, dtype=dtype)
@@ -135,7 +135,7 @@ class MouseController(mp.Process):
             motion_event = np.array([0, 0, 0, dx * self.scale_factor, dy * self.scale_factor, 0, 0], dtype=np.int64)
 
         self.ring_buffer.put({
-            'motion_event': motion_event,
+            'motion_event': motion_event,   # type: ignore
             'button_state': [False] * self.n_buttons,
             'receive_timestamp': time.time()
         })
@@ -161,7 +161,7 @@ class MouseController(mp.Process):
         if self.mode == 'rotate':
             z_motion[4] = dy * self.scale_factor  # Handle Z axis rotation
         self.ring_buffer.put({
-            'motion_event': z_motion,
+            'motion_event': z_motion,   # type: ignore
             'button_state': [False] * self.n_buttons,
             'receive_timestamp': time.time()
         })
@@ -169,31 +169,31 @@ class MouseController(mp.Process):
 
     def read_evdev_mouse_events(self):
         for event in self.evdev_mouse.read_loop():
-            if event.type == ecodes.EV_KEY:
+            if event.type == ecodes.EV_KEY: # type: ignore
                 key_event = categorize(event)
-                if key_event.scancode == ecodes.BTN_LEFT and key_event.keystate == key_event.key_down:
+                if key_event.scancode == ecodes.BTN_LEFT and key_event.keystate == key_event.key_down:  # type: ignore
                     self.is_rotation_mode = not self.is_rotation_mode
                     mode = "rotate" if self.is_rotation_mode else "translate"
                     print(f'change to mode: {mode}')
-            elif event.type == ecodes.EV_REL:
+            elif event.type == ecodes.EV_REL:   # type: ignore
                 if self.is_rotation_mode:
-                    if event.code == ecodes.REL_X:
+                    if event.code == ecodes.REL_X:  # type: ignore
                         self.motion_state['rot_x'] += event.value
                         print(f'rotate x axis: {event.value}')
-                    elif event.code == ecodes.REL_Y:
+                    elif event.code == ecodes.REL_Y:    # type: ignore
                         self.motion_state['rot_y'] += event.value
                         print(f'rotate y axis: {event.value}')
-                    elif event.code == ecodes.REL_WHEEL:
+                    elif event.code == ecodes.REL_WHEEL:    # type: ignore
                         self.motion_state['rot_z'] += event.value
                         print(f'rotate z axis: {event.value}')
                 else:
-                    if event.code == ecodes.REL_X:
+                    if event.code == ecodes.REL_X:  # type: ignore
                         self.motion_state['x'] += event.value
                         print(f'translate x axis: {event.value}')
-                    elif event.code == ecodes.REL_Y:
+                    elif event.code == ecodes.REL_Y:    # type: ignore
                         self.motion_state['y'] += event.value
                         print(f'translate y axis: {event.value}')
-                    elif event.code == ecodes.REL_WHEEL:
+                    elif event.code == ecodes.REL_WHEEL:    # type: ignore
                         self.motion_state['z'] += event.value
                         print(f'translate z axis: {event.value}')
 

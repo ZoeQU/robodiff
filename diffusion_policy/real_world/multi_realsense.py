@@ -13,7 +13,7 @@ class MultiRealsense:
         serial_numbers: Optional[List[str]]=None,
         shm_manager: Optional[SharedMemoryManager]=None,
         resolution=(1280,720),
-        capture_fps=15, #30 (ori)
+        capture_fps=30,
         put_fps=None,
         put_downsample=True,
         record_fps=None,

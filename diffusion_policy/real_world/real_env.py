@@ -50,7 +50,7 @@ class RealEnv:
             tcp_offset=0.13,
             init_joints=False,
             # video capture params
-            video_capture_fps=15, #30
+            video_capture_fps=30,
             video_capture_resolution=(1280,720),
             # saving params
             record_raw_video=True,
@@ -161,8 +161,8 @@ class RealEnv:
             frequency=125, # UR5 CB3 RTDE
             lookahead_time=0.1,
             gain=300,
-            max_pos_speed=max_pos_speed*cube_diag,
-            max_rot_speed=max_rot_speed*cube_diag,
+            max_pos_speed=max_pos_speed*cube_diag, # type: ignore
+            max_rot_speed=max_rot_speed*cube_diag,  # type: ignore
             launch_timeout=3,
             tcp_offset_pose=[0,0,tcp_offset,0,0,0],
             payload_mass=None,

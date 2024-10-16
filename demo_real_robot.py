@@ -23,7 +23,7 @@ import cv2
 import numpy as np
 import scipy.spatial.transform as st
 from diffusion_policy.real_world.real_env import RealEnv
-# from diffusion_policy.real_world.spacemouse_shared_memory import Spacemouse
+from diffusion_policy.real_world.spacemouse_shared_memory import Spacemouse
 from diffusion_policy.real_world.twoDmouse_shared_memory import MouseController
 from diffusion_policy.common.precise_sleep import precise_wait
 from diffusion_policy.real_world.keystroke_counter import (
@@ -32,7 +32,7 @@ from diffusion_policy.real_world.keystroke_counter import (
 
 @click.command()
 @click.option('--output', '-o', required=True, help="Directory to save demonstration dataset.")
-@click.option('--robot_ip', '-ri', required=True, help="UR5's IP address e.g. 192.168.0.204")
+@click.option('--robot_ip', '-ri', required=True, help="UR5's IP address e.g. 192.168.125.195")
 @click.option('--vis_camera_idx', default=0, type=int, help="Which RealSense camera to visualize.")
 @click.option('--init_joints', '-j', is_flag=True, default=False, help="Whether to initialize robot joint configuration in the beginning.")
 @click.option('--frequency', '-f', default=10, type=float, help="Control frequency in Hz.")
@@ -41,10 +41,10 @@ def main(output, robot_ip, vis_camera_idx, init_joints, frequency, command_laten
     dt = 1/frequency
     # with SharedMemoryManager() as shm_manager:
     #     with KeystrokeCounter() as key_counter, \
-    #         Spacemouse(shm_manager=shm_manager) as sm, \
+    #         MouseController(shm_manager=shm_manager) as mouse_controller, \
     with SharedMemoryManager() as shm_manager:
         with KeystrokeCounter() as key_counter, \
-            MouseController(shm_manager=shm_manager) as mouse_controller, \
+            Spacemouse(shm_manager=shm_manager) as sm, \
             RealEnv(
                 output_dir=output, 
                 robot_ip=robot_ip, 
@@ -131,40 +131,40 @@ def main(output, robot_ip, vis_camera_idx, init_joints, frequency, command_laten
                 cv2.pollKey()
 
                 precise_wait(t_sample)
-                # # get teleop command
-                # sm_state = sm.get_motion_state_transformed()
-                # # print(sm_state)
-                # dpos = sm_state[:3] * (env.max_pos_speed / frequency)
-                # drot_xyz = sm_state[3:] * (env.max_rot_speed / frequency)
-                
-                # if not sm.is_button_pressed(0):
-                #     # translation mode
-                #     drot_xyz[:] = 0
-                # else:
-                #     dpos[:] = 0
-                # if not sm.is_button_pressed(1):
-                #     # 2D translation mode
-                #     dpos[2] = 0    
-
-                ####################################################################################################  
-                # #use common 2D mouse
-                ####################################################################################################  
-                sm_state = mouse_controller.get_motion_state()  # 使用普通鼠标状态
-                print(sm_state)
-
+                # get teleop command
+                sm_state = sm.get_motion_state_transformed()
+                # print(sm_state)
                 dpos = sm_state[:3] * (env.max_pos_speed / frequency)
                 drot_xyz = sm_state[3:] * (env.max_rot_speed / frequency)
-
-                if not mouse_controller.is_button_pressed(0):
+                
+                if not sm.is_button_pressed(0):
                     # translation mode
                     drot_xyz[:] = 0
                 else:
                     dpos[:] = 0
-
-                if not mouse_controller.is_button_pressed(1):
+                if not sm.is_button_pressed(1):
                     # 2D translation mode
-                    dpos[2] = 0
+                    dpos[2] = 0    
+
                 ####################################################################################################  
+                # #use common 2D mouse
+                ####################################################################################################  
+                # sm_state = mouse_controller.get_motion_state()  # 使用普通鼠标状态
+                # print(sm_state)
+
+                # dpos = sm_state[:3] * (env.max_pos_speed / frequency)
+                # drot_xyz = sm_state[3:] * (env.max_rot_speed / frequency)
+
+                # if not mouse_controller.is_button_pressed(0):
+                #     # translation mode
+                #     drot_xyz[:] = 0
+                # else:
+                #     dpos[:] = 0
+
+                # if not mouse_controller.is_button_pressed(1):
+                #     # 2D translation mode
+                #     dpos[2] = 0
+                # ####################################################################################################  
                 ####################################################################################################  
 
 
@@ -175,9 +175,9 @@ def main(output, robot_ip, vis_camera_idx, init_joints, frequency, command_laten
 
                 # execute teleop command
                 env.exec_actions(
-                    actions=[target_pose], 
-                    timestamps=[t_command_target-time.monotonic()+time.time()],
-                    stages=[stage])
+                    actions=[target_pose],  # type: ignore
+                    timestamps=[t_command_target-time.monotonic()+time.time()],     # type: ignore
+                    stages=[stage]) # type: ignore
                 precise_wait(t_cycle_end)
                 iter_idx += 1
 

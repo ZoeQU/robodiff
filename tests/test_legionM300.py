@@ -133,22 +133,34 @@ from evdev import InputDevice, categorize, ecodes
 import threading
 import time
 """in this version, all common 2D mouse is OK"""
-# (if meet error: permission denied) sudo chmod 666 /dev/input/event19
-device_path = '/dev/input/event21' 
+# sudo evtest #find which device
+# (if meet error: permission denied) sudo chmod 666 /dev/input/event7
+device_path = '/dev/input/event7' 
 mouse = InputDevice(device_path)
 
-print(f'监听设备: {mouse}')
+print(f'Listening to: {mouse.name}')
 
 # 按键映射
 button_map = {
-    ecodes.BTN_LEFT: '左键',
-    ecodes.BTN_RIGHT: '右键',
-    ecodes.BTN_MIDDLE: '中键',
-    ecodes.BTN_SIDE: '侧键1',
-    ecodes.BTN_EXTRA: '侧键2',
-    ecodes.BTN_FORWARD: '侧键3',
-    ecodes.BTN_BACK: '侧键4'
+    ecodes.BTN_LEFT: 'Left Key',
+    ecodes.BTN_RIGHT: 'Right Key',
+    ecodes.BTN_MIDDLE: 'Middle Key',
+    ecodes.BTN_SIDE: 'Side 1',
+    ecodes.BTN_EXTRA: 'Side 2',
 }
+
+# region
+# for event in mouse.read_loop():
+#     if event.type == ecodes.EV_KEY:
+#         key_event = categorize(event)
+#         button_name = button_map.get(key_event.scancode, "unkown_button")
+
+#         if key_event.keystate == key_event.key_down:
+#             print(f"{button_name} is clicked")
+#         elif key_event.keystate == key_event.key_up:
+#             print(f"{button_name} is released")
+# endregion
+
 
 # 状态变量
 motion_state = {
@@ -168,7 +180,7 @@ def read_mouse_events():
     for event in mouse.read_loop():
         if event.type == ecodes.EV_KEY:
             key_event = categorize(event)
-            if key_event.scancode == ecodes.BTN_LEFT and key_event.keystate == key_event.key_down:
+            if key_event.scancode == ecodes.BTN_SIDE and key_event.keystate == key_event.key_down:  # click side1 for mode change
                 is_rotation_mode = not is_rotation_mode
                 mode = "旋转模式" if is_rotation_mode else "平移模式"
                 print(f'切换到 {mode}')
@@ -180,24 +192,23 @@ def read_mouse_events():
             if is_rotation_mode:
                 if event.code == ecodes.REL_X:
                     motion_state['rot_x'] += event.value
-                    print(f'旋转 x 轴: {event.value}')
+                    # print(f'旋转 x 轴: {event.value}')
                 elif event.code == ecodes.REL_Y:
                     motion_state['rot_y'] += event.value
-                    print(f'旋转 y 轴: {event.value}')
+                    # print(f'旋转 y 轴: {event.value}')
                 elif event.code == ecodes.REL_WHEEL:
-
                     motion_state['rot_z'] += event.value
-                    print(f'旋转 z 轴: {event.value}')
+                    # print(f'旋转 z 轴: {event.value}')
             else:
                 if event.code == ecodes.REL_X:
                     motion_state['x'] += event.value
-                    print(f'平移 x 轴: {event.value}')
+                    # print(f'平移 x 轴: {event.value}')
                 elif event.code == ecodes.REL_Y:
                     motion_state['y'] += event.value
-                    print(f'平移 y 轴: {event.value}')
+                    # print(f'平移 y 轴: {event.value}')
                 elif event.code == ecodes.REL_WHEEL:
                     motion_state['z'] += event.value
-                    print(f'平移 z 轴: {event.value}')
+                    # print(f'平移 z 轴: {event.value}')
 
 def print_motion_state():
     while True:

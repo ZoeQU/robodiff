@@ -14,9 +14,9 @@ from diffusion_policy.real_world.video_recorder import VideoRecorder
 
 def test():
     # config = json.load(open('/home/cchi/dev/diffusion_policy/diffusion_policy/real_world/realsense_config/415_high_accuracy_mode.json', 'r'))
-    config = json.load(open('/home/ubuntu/diffusion_policy/diffusion_policy/real_world/realsense_config/435_high_accuracy_mode.json', 'r'))
+    config = json.load(open('/home/flair/Projects/robodiff/diffusion_policy/real_world/realsense_config/415_high_accuracy_mode.json', 'r'))
 
-    def transform(data):
+    def transform(data):    # type: ignore
         color = data['color']
         h,w,_ = color.shape
         factor = 4
