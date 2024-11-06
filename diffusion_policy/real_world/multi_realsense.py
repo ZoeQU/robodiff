@@ -35,16 +35,16 @@ class MultiRealsense:
             serial_numbers = SingleRealsense.get_connected_devices_serial()
         n_cameras = len(serial_numbers)
 
-        advanced_mode_config = repeat_to_list(
+        advanced_mode_config = repeat_to_list( # type:ignore
             advanced_mode_config, n_cameras, dict)
-        transform = repeat_to_list(
+        transform = repeat_to_list(   # type:ignore
             transform, n_cameras, Callable)
-        vis_transform = repeat_to_list(
+        vis_transform = repeat_to_list(   # type:ignore
             vis_transform, n_cameras, Callable)
-        recording_transform = repeat_to_list(
+        recording_transform = repeat_to_list(   # type:ignore
             recording_transform, n_cameras, Callable)
 
-        video_recorder = repeat_to_list(
+        video_recorder = repeat_to_list(   # type:ignore
             video_recorder, n_cameras, VideoRecorder)
 
         cameras = dict()
@@ -61,11 +61,11 @@ class MultiRealsense:
                 enable_depth=enable_depth,
                 enable_infrared=enable_infrared,
                 get_max_k=get_max_k,
-                advanced_mode_config=advanced_mode_config[i],
-                transform=transform[i],
-                vis_transform=vis_transform[i],
-                recording_transform=recording_transform[i],
-                video_recorder=video_recorder[i],
+                advanced_mode_config=advanced_mode_config[i],   # type:ignore
+                transform=transform[i],   # type:ignore
+                vis_transform=vis_transform[i],   # type:ignore
+                recording_transform=recording_transform[i],   # type:ignore
+                video_recorder=video_recorder[i],   # type:ignore
                 verbose=verbose
             )
         
@@ -169,21 +169,21 @@ class MultiRealsense:
 
         if exposure is None and gain is None:
             # auto exposure
-            self.set_color_option(rs.option.enable_auto_exposure, 1.0)
+            self.set_color_option(rs.option.enable_auto_exposure, 1.0)   # type:ignore
         else:
             # manual exposure
-            self.set_color_option(rs.option.enable_auto_exposure, 0.0)
+            self.set_color_option(rs.option.enable_auto_exposure, 0.0)   # type:ignore
             if exposure is not None:
-                self.set_color_option(rs.option.exposure, exposure)
+                self.set_color_option(rs.option.exposure, exposure)   # type:ignore
             if gain is not None:
-                self.set_color_option(rs.option.gain, gain)
+                self.set_color_option(rs.option.gain, gain)   # type:ignore
     
     def set_white_balance(self, white_balance=None):
         if white_balance is None:
-            self.set_color_option(rs.option.enable_auto_white_balance, 1.0)
+            self.set_color_option(rs.option.enable_auto_white_balance, 1.0)   # type:ignore
         else:
-            self.set_color_option(rs.option.enable_auto_white_balance, 0.0)
-            self.set_color_option(rs.option.white_balance, white_balance)
+            self.set_color_option(rs.option.enable_auto_white_balance, 0.0)   # type:ignore
+            self.set_color_option(rs.option.white_balance, white_balance)  # type:ignore
     
     def get_intrinsics(self):
         return np.array([c.get_intrinsics() for c in self.cameras.values()])

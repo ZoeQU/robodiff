@@ -149,7 +149,7 @@ class RTDEInterpolationController(mp.Process):
         message = {
             'cmd': Command.STOP.value
         }
-        self.input_queue.put(message)
+        self.input_queue.put(message) # type: ignore
         if wait:
             self.stop_wait()
 

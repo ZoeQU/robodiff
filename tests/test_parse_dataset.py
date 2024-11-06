@@ -3,15 +3,6 @@ from typing import Dict
 import torch
 import numpy as np
 import copy
-from diffusion_policy.common.pytorch_util import dict_apply
-from diffusion_policy.common.replay_buffer import ReplayBuffer
-from diffusion_policy.common.sampler import (
-    SequenceSampler, get_val_mask, downsample_mask)
-from diffusion_policy.model.common.normalizer import LinearNormalizer
-from diffusion_policy.dataset.base_dataset import BaseImageDataset
-from diffusion_policy.common.normalize_util import get_image_range_normalizer
-
-from diffusion_policy.dataset import pusht_image_dataset 
 
 import zarr
 from matplotlib import pyplot as plt
@@ -21,6 +12,7 @@ import cv2
 
 
 class DatasetAnalyzer:
+    ##### read only ####
     def __init__(self, file_path, n):
         self.zarr_file = zarr.open(file_path, mode="r")
         self.n = n
@@ -28,7 +20,7 @@ class DatasetAnalyzer:
     def print_structure(self, group=None, indent=0):
         if group is None:
             group = self.zarr_file
-        for key, item in group.items():
+        for key, item in group.items(): # type:ignore
             print(" " * indent + key)
             if isinstance(item, zarr.Group):
                 self.print_structure(item, indent + 2)
@@ -36,7 +28,7 @@ class DatasetAnalyzer:
     def recursive_visualize(self, group=None, path=""):
         if group is None:
             group = self.zarr_file
-        for key, item in group.items():
+        for key, item in group.items(): # type:ignore
             current_path = f"{path}/{key}" if path else key
             if isinstance(item, zarr.Group):
                 print(f"Group: {current_path}")
@@ -65,7 +57,13 @@ class DatasetAnalyzer:
                     self.read_stage(item, self.n)
                 if "timestamp" in current_path:
                     self.read_timestamp(item, self.n)
+                if "episode_ends" in current_path:
+                    self.read_meta_episode_ends(item, self.n)
  
+    def read_meta_episode_ends(self, array, n):
+        episode_ends_data = array[:n]
+        print("Episode Ends Data:", episode_ends_data)
+
     def visualize_image(self, array, title):
         img_data = array[:]
         # print("img_data.shape: ", img_data.shape)     #(25650, 96, 96, 3)
@@ -96,7 +94,7 @@ class DatasetAnalyzer:
             # fixed color board
             fixed_colors = ['red', 'green', 'blue', 'orange', 'purple', 'brown', 'pink', 'gray', 'cyan', 'magenta']
             # random color board
-            colors = cm.rainbow(np.linspace(0, 1, len(x) - 1))
+            colors = cm.rainbow(np.linspace(0, 1, len(x) - 1))  # type:ignore
             for j in range(len(x) - 1):
                 plt.plot(x[j:j+2], y[j:j+2], color=fixed_colors[j])
 
@@ -151,11 +149,15 @@ class DatasetAnalyzer:
         print("timestamp: ", timestamp[:n])
 
 
+
+
 if __name__ == "__main__":
-    path = "./data/pusht_real/real_pusht_20230105/replay_buffer.zarr"
+    # path = "./data/pusht_real/real_pusht_20230105/replay_buffer.zarr"
     # path = "./data/pusht/pusht_cchi_v7_replay.zarr"
-    analyzer = DatasetAnalyzer(path, 2)
-    print("Zarr structure:")
-    analyzer.print_structure()
-    print("\nData sturcture visualization:")
+    path = "./data/demo_pusht_real/replay_buffer.zarr"
+    analyzer = DatasetAnalyzer(path, 6)
+    # print("Zarr structure:")
+    # analyzer.print_structure()
+    # print("\nData sturcture visualization:")
     analyzer.recursive_visualize()
+    

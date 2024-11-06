@@ -34,8 +34,8 @@ import skvideo.io
 from omegaconf import OmegaConf
 import scipy.spatial.transform as st
 from diffusion_policy.real_world.real_env import RealEnv
-# from diffusion_policy.real_world.spacemouse_shared_memory import Spacemouse
-from diffusion_policy.real_world.twoDmouse_shared_memory import MouseController
+from diffusion_policy.real_world.spacemouse_shared_memory import Spacemouse
+# from diffusion_policy.real_world.twoDmouse_shared_memory import MouseController
 from diffusion_policy.common.precise_sleep import precise_wait
 from diffusion_policy.real_world.real_inference_util import (
     get_real_obs_resolution, 
@@ -142,8 +142,8 @@ def main(input, output, robot_ip, match_dataset, match_episode,
     print("action_offset:", action_offset)
 
     with SharedMemoryManager() as shm_manager:
-        # with Spacemouse(shm_manager=shm_manager) as sm, RealEnv(
-        with MouseController(shm_manager=shm_manager) as mouse_controller, RealEnv(
+        # with MouseController(shm_manager=shm_manager) as mouse_controller, RealEnv(
+        with Spacemouse(shm_manager=shm_manager) as sm, RealEnv(
             output_dir=output, 
             robot_ip=robot_ip, 
             frequency=frequency,
@@ -238,40 +238,40 @@ def main(input, output, robot_ip, match_dataset, match_episode,
                         break
 
                     precise_wait(t_sample)
-                    # # get teleop command
-                    # sm_state = sm.get_motion_state_transformed()
-                    # # print(sm_state)
-                    # dpos = sm_state[:3] * (env.max_pos_speed / frequency)
-                    # drot_xyz = sm_state[3:] * (env.max_rot_speed / frequency)
-  
-                    # if not sm.is_button_pressed(0):
-                    #     # translation mode
-                    #     drot_xyz[:] = 0
-                    # else:
-                    #     dpos[:] = 0
-                    # if not sm.is_button_pressed(1):
-                    #     # 2D translation mode
-                    #     dpos[2] = 0    
-
-                    ####################################################################################################  
-                    # #use common 2D mouse
-                    ####################################################################################################  
-                    sm_state = mouse_controller.get_motion_state()  # 使用普通鼠标状态
-
+                    # get teleop command
+                    sm_state = sm.get_motion_state_transformed()
+                    # print(sm_state)
                     dpos = sm_state[:3] * (env.max_pos_speed / frequency)
                     drot_xyz = sm_state[3:] * (env.max_rot_speed / frequency)
-
-                    if not mouse_controller.is_button_pressed(0):
+  
+                    if not sm.is_button_pressed(0):
                         # translation mode
                         drot_xyz[:] = 0
                     else:
                         dpos[:] = 0
-
-                    if not mouse_controller.is_button_pressed(1):
+                    if not sm.is_button_pressed(1):
                         # 2D translation mode
-                        dpos[2] = 0
-                    ####################################################################################################  
-                    ####################################################################################################  
+                        dpos[2] = 0    
+
+                    # ####################################################################################################  
+                    # # #use common 2D mouse
+                    # ####################################################################################################  
+                    # sm_state = mouse_controller.get_motion_state()  # 使用普通鼠标状态
+
+                    # dpos = sm_state[:3] * (env.max_pos_speed / frequency)
+                    # drot_xyz = sm_state[3:] * (env.max_rot_speed / frequency)
+
+                    # if not mouse_controller.is_button_pressed(0):
+                    #     # translation mode
+                    #     drot_xyz[:] = 0
+                    # else:
+                    #     dpos[:] = 0
+
+                    # if not mouse_controller.is_button_pressed(1):
+                    #     # 2D translation mode
+                    #     dpos[2] = 0
+                    # ####################################################################################################  
+                    # ####################################################################################################  
 
                     drot = st.Rotation.from_euler('xyz', drot_xyz)
                     target_pose[:3] += dpos

@@ -149,7 +149,7 @@ def main(output, robot_ip, vis_camera_idx, init_joints, frequency, command_laten
                 ####################################################################################################  
                 # #use common 2D mouse
                 ####################################################################################################  
-                # sm_state = mouse_controller.get_motion_state()  # 使用普通鼠标状态
+                # sm_state = mouse_controller.get_motion_state()  # 使用普通鼠标状态 
                 # print(sm_state)
 
                 # dpos = sm_state[:3] * (env.max_pos_speed / frequency)
@@ -164,8 +164,8 @@ def main(output, robot_ip, vis_camera_idx, init_joints, frequency, command_laten
                 # if not mouse_controller.is_button_pressed(1):
                 #     # 2D translation mode
                 #     dpos[2] = 0
-                # ####################################################################################################  
-                ####################################################################################################  
+                #####################################################################################################  
+                #####################################################################################################  
 
 
                 drot = st.Rotation.from_euler('xyz', drot_xyz)
