@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  robodiff-sim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: robodiff:simulation
+    # privileged: true
+    deploy: 
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    container_name: robodiff_sim
+    hostname: robodiff_sim
+    network_mode: host
+    env_file: ".env"
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # - /dev:/dev
+      # - /dev/bus/usb:/dev/bus/usb 
+    command: ["/bin/bash", "setup.sh"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: unless-stopped
+    shm_size: '10gb' 
+ 
