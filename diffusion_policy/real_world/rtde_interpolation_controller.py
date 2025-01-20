@@ -119,7 +119,7 @@ class RTDEInterpolationController(mp.Process):
                 'TargetQ',
                 'TargetQd'
             ]
-        rtde_r = RTDEReceiveInterface(hostname=robot_ip)
+        rtde_r = RTDEReceiveInterace(hostname=robot_ip)
         example = dict()
         for key in receive_keys:
             example[key] = np.array(getattr(rtde_r, 'get'+key)())

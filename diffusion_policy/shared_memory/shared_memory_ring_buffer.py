@@ -44,6 +44,7 @@ class SharedMemoryRingBuffer:
         # we need enough empty slots to make sure put_desired_frequency Hz
         # of put can be sustaied.
         buffer_size = int(np.ceil(
+                                    
             put_desired_frequency * get_time_budget 
             * safety_margin)) + get_max_k
 

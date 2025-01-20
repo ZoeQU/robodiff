@@ -104,7 +104,8 @@ class SharedMemoryQueue:
                 arr[next_idx] = value
             else:
                 arr[next_idx] = np.array(value, dtype=arr.dtype)
-
+        # print("arr: ", arr)
+        # print('arr shape', arr.shape)
         # update idx
         self.write_counter.add(1)
     
