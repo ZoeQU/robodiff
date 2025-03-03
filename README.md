@@ -250,17 +250,24 @@ python eval_real_robot.py -i data/outputs/blah/checkpoints/latest.ckpt -o data/e
 ```
 Press "C" to start evaluation (handing control over to the policy). Press "S" to stop the current episode.
 
+### 🛝 The dataset and checkpoints from Collie
+
+For dataset you could download from: 
+[`https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link`](https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link)
+
+For checkpoints you could download from:
+[`https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link`](https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link)
 
 ## 🖥️ PART B: Reproducing Simulation Benchmark Results On ABB YuMi
 
-### Create Multi-Tasking Programs for ABB Yumi's Left Arm and Copy the Corresponding RAPID Code
+### 🆕 Create Multi-Tasking Programs for ABB Yumi's Left Arm and Copy the Corresponding RAPID Code
 Create multi-tasks from Controller in RobotStudio.
 ![image](https://github.com/user-attachments/assets/84c7969b-b6e7-4948-bc29-3d3cb6fa1148)
 And copy the Rapid code from [`RAPID`](./diffusion_policy/RAPID/), for example:
 ![image](https://github.com/user-attachments/assets/8dcdd6a4-0c27-41b3-84bd-c3f6b9997809)
 
  
-### Collect YuMi's left arm's data using a SpaceMouse
+### 🆕 Collect YuMi's left arm's data using a SpaceMouse
 Make sure the ABB YuMi's tasks: `t2_L` & `T_ROB_L` is running.
 
 ```console
@@ -282,7 +289,7 @@ Start the demonstration collection script. Press "C" to start recording. Use Spa
 This should result in a demonstration dataset in `data/demo_pusht_yumi` with in the same structure as our example [real Push-T training dataset](https://diffusion-policy.cs.columbia.edu/data/training/pusht_real.zip).
 
 
-### Move the ABB YuMi only use a SpaceMouse
+### 🆕 Move the ABB YuMi only use a SpaceMouse
 Make sure the ABB YuMi's tasks: `t2_L` & `T_ROB_L` is running.
 
 ```console
