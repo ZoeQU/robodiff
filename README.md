@@ -258,6 +258,9 @@ For dataset you could download from:
 For checkpoints you could download from:
 [`https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link`](https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link)
 
+The setup is bellow:
+![98d9616d58f8e4b152ae0b124ab72df](https://github.com/user-attachments/assets/934882a3-0a67-43f0-86de-8e3f8bd12842)
+
 ## 🖥️ PART B: Reproducing Simulation Benchmark Results On ABB YuMi
 
 ### 🆕 Create Multi-Tasking Programs for ABB Yumi's Left Arm and Copy the Corresponding RAPID Code
