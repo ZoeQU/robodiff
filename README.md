@@ -3,8 +3,9 @@
 <img src="media/teaser.png" alt="drawing" width="100%"/>
 <img src="media/multimodal_sim.png" alt="drawing" width="100%"/>
 
-## 🧾Perior Knowledge
+## 🛝 Perior Knowledge
 The Google Colab notebooks from Columbia University is the easiest way to play with Diffusion Policy. They provide separate notebooks for  [state-based environment](https://colab.research.google.com/drive/1gxdkgRVfM55zihY9TFLja97cSVZOZq2B?usp=sharing) and [vision-based environment](https://colab.research.google.com/drive/18GIHeOQ5DyjMN8iIRZL2EKZ0745NLIpg?usp=sharing).
+
 The original project in: 
 [[Project page]](https://diffusion-policy.cs.columbia.edu/)
 [[Paper]](https://diffusion-policy.cs.columbia.edu/#paper)
@@ -91,7 +92,7 @@ Software:
 `sudo apt install libspnav-dev spacenavd; sudo systemctl start spacenavd`
 * Conda environment `mamba env create -f conda_environment_real.yaml`
 
-## 🖥️ Reproducing Simulation Benchmark Results 
+## 🖥️ PART A: Reproducing Simulation Benchmark Results On UR5
 ### Download Training Data
 Under the repo root, create data subdirectory:
 ```console
@@ -149,7 +150,7 @@ data/outputs/2023.03.01/20.02.03_train_diffusion_unet_hybrid_pusht_image
 3 directories, 13 files
 ```
 
-### Running for multiple seeds
+### Running for multiple seeds (It should be OK, but we didn't test)
 Launch local ray cluster. For large scale experiments, you might want to setup an [AWS cluster with autoscaling](https://docs.ray.io/en/master/cluster/vms/user-guides/launching-clusters/aws.html). All other commands remain the same.
 ```console
 (robodiff)[diffusion_policy]$ export CUDA_VISIBLE_DEVICES=0,1,2  # select GPUs to be managed by the ray cluster
@@ -227,7 +228,7 @@ data/pusht_eval_output
 }
 ```
 
-## 🦾 Demo, Training and Eval on a Real Robot
+## 🦾 Demo, Training and Eval on a Real UR5 Robot
 Make sure your UR5 robot is running and accepting command from its network interface (emergency stop button within reach at all time), your RealSense cameras plugged in to your workstation (tested with `realsense-viewer`) and your SpaceMouse connected with the `spacenavd` daemon running (verify with `systemctl status spacenavd`).
 
 Start the demonstration collection script. Press "C" to start recording. Use SpaceMouse to move the robot. Press "S" to stop recording. 
@@ -248,6 +249,49 @@ Assuming the training has finished and you have a checkpoint at `data/outputs/bl
 python eval_real_robot.py -i data/outputs/blah/checkpoints/latest.ckpt -o data/eval_pusht_real --robot_ip 192.168.0.204
 ```
 Press "C" to start evaluation (handing control over to the policy). Press "S" to stop the current episode.
+
+
+## 🖥️ PART B: Reproducing Simulation Benchmark Results On ABB YuMi
+
+### Create Multi-Tasking Programs for ABB Yumi's Left Arm and Copy the Corresponding RAPID Code
+Create multi-tasks from Controller in RobotStudio.
+![image](https://github.com/user-attachments/assets/84c7969b-b6e7-4948-bc29-3d3cb6fa1148)
+And copy the Rapid code from [`RAPID`](./diffusion_policy/RAPID/), for example:
+![image](https://github.com/user-attachments/assets/8dcdd6a4-0c27-41b3-84bd-c3f6b9997809)
+
+ 
+### Collect YuMi's left arm's data using a SpaceMouse
+Make sure the ABB YuMi's tasks: `t2_L` & `T_ROB_L` is running.
+
+```console
+(robodiff)[diffusion_policy]$ python demo_real_yumi.py -o data/demo_pusht_yumi --robot_ip 192.168.125.1
+```
+And you will get:
+
+
+https://github.com/user-attachments/assets/0e49bfe7-f9c7-4e28-a934-c3d682fcb43e
+
+https://github.com/user-attachments/assets/55743a99-a729-408e-9a74-3687d15041db
+
+
+Start the demonstration collection script. Press "C" to start recording. Use SpaceMouse to move the robot. Press "S" to stop recording. 
+```console
+(robodiff)[diffusion_policy]$ python demo_real_robot.py -o data/demo_pusht_real --robot_ip 192.168.0.204
+```
+
+This should result in a demonstration dataset in `data/demo_pusht_yumi` with in the same structure as our example [real Push-T training dataset](https://diffusion-policy.cs.columbia.edu/data/training/pusht_real.zip).
+
+
+### Move the ABB YuMi only use a SpaceMouse
+Make sure the ABB YuMi's tasks: `t2_L` & `T_ROB_L` is running.
+
+```console
+(robodiff)[diffusion_policy]$ python test_real_yumi.py
+```
+
+https://github.com/user-attachments/assets/bd43a1ad-bd8f-4ca0-8da3-f26ecf6776f7
+
+
 
 ## 🗺️ Codebase Tutorial
 This codebase is structured under the requirement that:
