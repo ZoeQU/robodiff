@@ -286,7 +286,7 @@ This should result in a demonstration dataset in `data/demo_pusht_yumi` with in 
 Make sure the ABB YuMi's tasks: `t2_L` & `T_ROB_L` is running.
 
 ```console
-(robodiff)[diffusion_policy]$ python test_real_yumi.py
+(robodiff)[diffusion_policy]$ python test/test_yumi_by_spacemouse.py
 ```
 
 https://github.com/user-attachments/assets/bd43a1ad-bd8f-4ca0-8da3-f26ecf6776f7
