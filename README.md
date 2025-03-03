@@ -55,7 +55,7 @@ $ wget --recursive --no-parent --no-host-directories --relative --reject="index.
 
 ## 🛠️ Installation
 ### 🖥️ Simulation
-To reproduce our simulation benchmark results, install our conda environment on a Linux machine with Nvidia GPU. On Ubuntu 20.04 you need to install the following apt packages for mujoco:
+To reproduce our simulation benchmark results, install our conda environment on a Linux machine with Nvidia GPU. On Ubuntu 20.04 (*Virtual machine, WSL2, docker containers are not supported*) you need to install the following apt packages for mujoco:
 ```console
 $ sudo apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf
 ```
