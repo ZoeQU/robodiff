@@ -1,5 +1,11 @@
-# Diffusion Policy
+# Diffusion Policy from Collie
 
+<img src="media/teaser.png" alt="drawing" width="100%"/>
+<img src="media/multimodal_sim.png" alt="drawing" width="100%"/>
+
+## 🧾Perior Knowledge
+The Google Colab notebooks from Columbia University is the easiest way to play with Diffusion Policy. They provide separate notebooks for  [state-based environment](https://colab.research.google.com/drive/1gxdkgRVfM55zihY9TFLja97cSVZOZq2B?usp=sharing) and [vision-based environment](https://colab.research.google.com/drive/18GIHeOQ5DyjMN8iIRZL2EKZ0745NLIpg?usp=sharing).
+The original project in: 
 [[Project page]](https://diffusion-policy.cs.columbia.edu/)
 [[Paper]](https://diffusion-policy.cs.columbia.edu/#paper)
 [[Data]](https://diffusion-policy.cs.columbia.edu/data/)
@@ -7,26 +13,8 @@
 [[Colab (vision)]](https://colab.research.google.com/drive/18GIHeOQ5DyjMN8iIRZL2EKZ0745NLIpg?usp=sharing)
 
 
-[Cheng Chi](http://cheng-chi.github.io/)<sup>1</sup>,
-[Siyuan Feng](https://www.cs.cmu.edu/~sfeng/)<sup>2</sup>,
-[Yilun Du](https://yilundu.github.io/)<sup>3</sup>,
-[Zhenjia Xu](https://www.zhenjiaxu.com/)<sup>1</sup>,
-[Eric Cousineau](https://www.eacousineau.com/)<sup>2</sup>,
-[Benjamin Burchfiel](http://www.benburchfiel.com/)<sup>2</sup>,
-[Shuran Song](https://www.cs.columbia.edu/~shurans/)<sup>1</sup>
-
-<sup>1</sup>Columbia University,
-<sup>2</sup>Toyota Research Institute,
-<sup>3</sup>MIT
-
-<img src="media/teaser.png" alt="drawing" width="100%"/>
-<img src="media/multimodal_sim.png" alt="drawing" width="100%"/>
-
-## 🛝 Try it out!
-Our self-contained Google Colab notebooks is the easiest way to play with Diffusion Policy. We provide separate notebooks for  [state-based environment](https://colab.research.google.com/drive/1gxdkgRVfM55zihY9TFLja97cSVZOZq2B?usp=sharing) and [vision-based environment](https://colab.research.google.com/drive/18GIHeOQ5DyjMN8iIRZL2EKZ0745NLIpg?usp=sharing).
-
 ## 🧾 Checkout our experiment logs!
-For each experiment used to generate Table I,II and IV in the [paper](https://diffusion-policy.cs.columbia.edu/#paper), we provide:
+For each experiment used to generate Table I,II and IV in their [paper](https://diffusion-policy.cs.columbia.edu/#paper), they provide:
 1. A `config.yaml` that contains all parameters needed to reproduce the experiment.
 2. Detailed training/eval `logs.json.txt` for every training step.
 3. Checkpoints for the best `epoch=*-test_mean_score=*.ckpt` and last `latest.ckpt` epoch of each run.
@@ -83,7 +71,7 @@ $ conda env create -f conda_environment.yaml
 
 The `conda_environment_macos.yaml` file is only for development on MacOS and does not have full support for benchmarks.
 
-### 🦾 Real Robot
+### 🦾 Real Robot 
 Hardware (for Push-T):
 * 1x [UR5-CB3](https://www.universal-robots.com/cb3) or [UR5e](https://www.universal-robots.com/products/ur5-robot/) ([RTDE Interface](https://www.universal-robots.com/articles/ur/interface-communication/real-time-data-exchange-rtde-guide/) is required)
 * 2x [RealSense D415](https://www.intelrealsense.com/depth-camera-d415/)
@@ -92,9 +80,10 @@ Hardware (for Push-T):
 * 1x 3D printed [End effector](https://cad.onshape.com/documents/a818888644a15afa6cc68ee5/w/2885b48b018cda84f425beca/e/3e8771c2124cee024edd2fed?renderMode=0&uiState=63ffcba6631ca919895e64e5)
 * 1x 3D printed [T-block](https://cad.onshape.com/documents/f1140134e38f6ed6902648d5/w/a78cf81827600e4ff4058d03/e/f35f57fb7589f72e05c76caf?renderMode=0&uiState=63ffcbc9af4a881b344898ee)
 * USB-C cables and screws for RealSense
-
+* 1x ABB YuMi (RobotWare 6.15.04)
+  
 Software:
-* Ubuntu 20.04.3 (tested)
+* Ubuntu 20.04.3 (Tested in stand-alone computer. Virtual machine, WSL2, docker containers are not supported)
 * Mujoco dependencies: 
 `sudo apt install libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf`
 * [RealSense SDK](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md)
