@@ -1,5 +1,12 @@
-# Diffusion Policy
+# Diffusion Policy from Collie
 
+<img src="media/teaser.png" alt="drawing" width="100%"/>
+<img src="media/multimodal_sim.png" alt="drawing" width="100%"/>
+
+## 🛝 Perior Knowledge
+The Google Colab notebooks from Columbia University is the easiest way to play with Diffusion Policy. They provide separate notebooks for  [state-based environment](https://colab.research.google.com/drive/1gxdkgRVfM55zihY9TFLja97cSVZOZq2B?usp=sharing) and [vision-based environment](https://colab.research.google.com/drive/18GIHeOQ5DyjMN8iIRZL2EKZ0745NLIpg?usp=sharing).
+
+The original project in: 
 [[Project page]](https://diffusion-policy.cs.columbia.edu/)
 [[Paper]](https://diffusion-policy.cs.columbia.edu/#paper)
 [[Data]](https://diffusion-policy.cs.columbia.edu/data/)
@@ -7,26 +14,8 @@
 [[Colab (vision)]](https://colab.research.google.com/drive/18GIHeOQ5DyjMN8iIRZL2EKZ0745NLIpg?usp=sharing)
 
 
-[Cheng Chi](http://cheng-chi.github.io/)<sup>1</sup>,
-[Siyuan Feng](https://www.cs.cmu.edu/~sfeng/)<sup>2</sup>,
-[Yilun Du](https://yilundu.github.io/)<sup>3</sup>,
-[Zhenjia Xu](https://www.zhenjiaxu.com/)<sup>1</sup>,
-[Eric Cousineau](https://www.eacousineau.com/)<sup>2</sup>,
-[Benjamin Burchfiel](http://www.benburchfiel.com/)<sup>2</sup>,
-[Shuran Song](https://www.cs.columbia.edu/~shurans/)<sup>1</sup>
-
-<sup>1</sup>Columbia University,
-<sup>2</sup>Toyota Research Institute,
-<sup>3</sup>MIT
-
-<img src="media/teaser.png" alt="drawing" width="100%"/>
-<img src="media/multimodal_sim.png" alt="drawing" width="100%"/>
-
-## 🛝 Try it out!
-Our self-contained Google Colab notebooks is the easiest way to play with Diffusion Policy. We provide separate notebooks for  [state-based environment](https://colab.research.google.com/drive/1gxdkgRVfM55zihY9TFLja97cSVZOZq2B?usp=sharing) and [vision-based environment](https://colab.research.google.com/drive/18GIHeOQ5DyjMN8iIRZL2EKZ0745NLIpg?usp=sharing).
-
 ## 🧾 Checkout our experiment logs!
-For each experiment used to generate Table I,II and IV in the [paper](https://diffusion-policy.cs.columbia.edu/#paper), we provide:
+For each experiment used to generate Table I,II and IV in their [paper](https://diffusion-policy.cs.columbia.edu/#paper), they provide:
 1. A `config.yaml` that contains all parameters needed to reproduce the experiment.
 2. Detailed training/eval `logs.json.txt` for every training step.
 3. Checkpoints for the best `epoch=*-test_mean_score=*.ckpt` and last `latest.ckpt` epoch of each run.
@@ -66,24 +55,24 @@ $ wget --recursive --no-parent --no-host-directories --relative --reject="index.
 
 ## 🛠️ Installation
 ### 🖥️ Simulation
-To reproduce our simulation benchmark results, install our conda environment on a Linux machine with Nvidia GPU. On Ubuntu 20.04 you need to install the following apt packages for mujoco:
+To reproduce our simulation benchmark results, install our conda environment on a Linux machine with Nvidia GPU. On Ubuntu 20.04 (*Virtual machine, WSL2, docker containers are not supported*) you need to install the following apt packages for mujoco:
 ```console
 $ sudo apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf
 ```
 
-We recommend [Mambaforge](https://github.com/conda-forge/miniforge#mambaforge) instead of the standard anaconda distribution for faster installation: 
-```console
-$ mamba env create -f conda_environment.yaml
-```
-
-but you can use conda as well: 
+We recommend conda for faster installation:
 ```console
 $ conda env create -f conda_environment.yaml
 ```
 
+ but you can use [Mambaforge](https://github.com/conda-forge/miniforge#mambaforge) as well: 
+ ```console
+$ mamba env create -f conda_environment.yaml
+```
+
 The `conda_environment_macos.yaml` file is only for development on MacOS and does not have full support for benchmarks.
 
-### 🦾 Real Robot
+### 🦾 Real Robot 
 Hardware (for Push-T):
 * 1x [UR5-CB3](https://www.universal-robots.com/cb3) or [UR5e](https://www.universal-robots.com/products/ur5-robot/) ([RTDE Interface](https://www.universal-robots.com/articles/ur/interface-communication/real-time-data-exchange-rtde-guide/) is required)
 * 2x [RealSense D415](https://www.intelrealsense.com/depth-camera-d415/)
@@ -92,9 +81,10 @@ Hardware (for Push-T):
 * 1x 3D printed [End effector](https://cad.onshape.com/documents/a818888644a15afa6cc68ee5/w/2885b48b018cda84f425beca/e/3e8771c2124cee024edd2fed?renderMode=0&uiState=63ffcba6631ca919895e64e5)
 * 1x 3D printed [T-block](https://cad.onshape.com/documents/f1140134e38f6ed6902648d5/w/a78cf81827600e4ff4058d03/e/f35f57fb7589f72e05c76caf?renderMode=0&uiState=63ffcbc9af4a881b344898ee)
 * USB-C cables and screws for RealSense
-
+* 1x ABB YuMi (RobotWare 6.15.04)
+  
 Software:
-* Ubuntu 20.04.3 (tested)
+* Ubuntu 20.04.3 (Tested in stand-alone computer. Virtual machine, WSL2, docker containers are not supported)
 * Mujoco dependencies: 
 `sudo apt install libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf`
 * [RealSense SDK](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md)
@@ -102,7 +92,7 @@ Software:
 `sudo apt install libspnav-dev spacenavd; sudo systemctl start spacenavd`
 * Conda environment `mamba env create -f conda_environment_real.yaml`
 
-## 🖥️ Reproducing Simulation Benchmark Results 
+## 🖥️ PART A: Reproducing Simulation Benchmark Results On UR5
 ### Download Training Data
 Under the repo root, create data subdirectory:
 ```console
@@ -160,7 +150,7 @@ data/outputs/2023.03.01/20.02.03_train_diffusion_unet_hybrid_pusht_image
 3 directories, 13 files
 ```
 
-### Running for multiple seeds
+### Running for multiple seeds (It should be OK, but we didn't test)
 Launch local ray cluster. For large scale experiments, you might want to setup an [AWS cluster with autoscaling](https://docs.ray.io/en/master/cluster/vms/user-guides/launching-clusters/aws.html). All other commands remain the same.
 ```console
 (robodiff)[diffusion_policy]$ export CUDA_VISIBLE_DEVICES=0,1,2  # select GPUs to be managed by the ray cluster
@@ -238,7 +228,7 @@ data/pusht_eval_output
 }
 ```
 
-## 🦾 Demo, Training and Eval on a Real Robot
+## 🦾 Demo, Training and Eval on a Real UR5 Robot
 Make sure your UR5 robot is running and accepting command from its network interface (emergency stop button within reach at all time), your RealSense cameras plugged in to your workstation (tested with `realsense-viewer`) and your SpaceMouse connected with the `spacenavd` daemon running (verify with `systemctl status spacenavd`).
 
 Start the demonstration collection script. Press "C" to start recording. Use SpaceMouse to move the robot. Press "S" to stop recording. 
@@ -259,6 +249,59 @@ Assuming the training has finished and you have a checkpoint at `data/outputs/bl
 python eval_real_robot.py -i data/outputs/blah/checkpoints/latest.ckpt -o data/eval_pusht_real --robot_ip 192.168.0.204
 ```
 Press "C" to start evaluation (handing control over to the policy). Press "S" to stop the current episode.
+
+### 🛝 The dataset and checkpoints from Collie
+
+For dataset you could download from: 
+[`https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link`](https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link)
+
+For checkpoints you could download from:
+[`https://drive.google.com/file/d/1yt475sqWUlQomOXN-rfvUvJqLwoe_dCO/view?usp=drive_link`](https://drive.google.com/file/d/1yt475sqWUlQomOXN-rfvUvJqLwoe_dCO/view?usp=drive_link)
+
+The setup is bellow:
+![98d9616d58f8e4b152ae0b124ab72df](https://github.com/user-attachments/assets/934882a3-0a67-43f0-86de-8e3f8bd12842)
+
+## 🖥️ PART B: Reproducing Simulation Benchmark Results On ABB YuMi
+
+### 🆕 Create Multi-Tasking Programs for ABB Yumi's Left Arm and Copy the Corresponding RAPID Code
+Create multi-tasks from Controller in RobotStudio.
+![image](https://github.com/user-attachments/assets/84c7969b-b6e7-4948-bc29-3d3cb6fa1148)
+And copy the Rapid code from [`RAPID`](./diffusion_policy/RAPID/), for example:
+![image](https://github.com/user-attachments/assets/8dcdd6a4-0c27-41b3-84bd-c3f6b9997809)
+
+ 
+### 🆕 Collect YuMi's left arm's data using a SpaceMouse
+Make sure the ABB YuMi's tasks: `t2_L` & `T_ROB_L` is running.
+
+```console
+(robodiff)[diffusion_policy]$ python demo_real_yumi.py -o data/demo_pusht_yumi --robot_ip 192.168.125.1
+```
+And you will get:
+
+
+https://github.com/user-attachments/assets/0e49bfe7-f9c7-4e28-a934-c3d682fcb43e
+
+https://github.com/user-attachments/assets/55743a99-a729-408e-9a74-3687d15041db
+
+
+Start the demonstration collection script. Press "C" to start recording. Use SpaceMouse to move the robot. Press "S" to stop recording. 
+```console
+(robodiff)[diffusion_policy]$ python demo_real_robot.py -o data/demo_pusht_real --robot_ip 192.168.0.204
+```
+
+This should result in a demonstration dataset in `data/demo_pusht_yumi` with in the same structure as our example [real Push-T training dataset](https://diffusion-policy.cs.columbia.edu/data/training/pusht_real.zip).
+
+
+### 🆕 Move the ABB YuMi only use a SpaceMouse
+Make sure the ABB YuMi's tasks: `t2_L` & `T_ROB_L` is running.
+
+```console
+(robodiff)[diffusion_policy]$ python test/test_yumi_by_spacemouse.py
+```
+
+https://github.com/user-attachments/assets/bd43a1ad-bd8f-4ca0-8da3-f26ecf6776f7
+
+
 
 ## 🗺️ Codebase Tutorial
 This codebase is structured under the requirement that:
