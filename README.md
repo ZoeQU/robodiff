@@ -60,14 +60,14 @@ To reproduce our simulation benchmark results, install our conda environment on 
 $ sudo apt install -y libosmesa6-dev libgl1-mesa-glx libglfw3 patchelf
 ```
 
-We recommend [Mambaforge](https://github.com/conda-forge/miniforge#mambaforge) instead of the standard anaconda distribution for faster installation: 
-```console
-$ mamba env create -f conda_environment.yaml
-```
-
-but you can use conda as well: 
+We recommend conda for faster installation:
 ```console
 $ conda env create -f conda_environment.yaml
+```
+
+ but you can use [Mambaforge](https://github.com/conda-forge/miniforge#mambaforge) as well: 
+ ```console
+$ mamba env create -f conda_environment.yaml
 ```
 
 The `conda_environment_macos.yaml` file is only for development on MacOS and does not have full support for benchmarks.
