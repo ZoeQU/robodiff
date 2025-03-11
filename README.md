@@ -14,13 +14,13 @@ The original project in:
 [[Colab (vision)]](https://colab.research.google.com/drive/18GIHeOQ5DyjMN8iIRZL2EKZ0745NLIpg?usp=sharing)
 
 
-## 🧾 Checkout our experiment logs!
+## 🧾 Checkout experiment logs of Columbia University!
 For each experiment used to generate Table I,II and IV in their [paper](https://diffusion-policy.cs.columbia.edu/#paper), they provide:
 1. A `config.yaml` that contains all parameters needed to reproduce the experiment.
 2. Detailed training/eval `logs.json.txt` for every training step.
 3. Checkpoints for the best `epoch=*-test_mean_score=*.ckpt` and last `latest.ckpt` epoch of each run.
 
-Experiment logs are hosted on our website as nested directories in format:
+Experiment logs are hosted on their website as nested directories in format:
 `https://diffusion-policy.cs.columbia.edu/data/experiments/<image|low_dim>/<task>/<method>/`
 
 Within each experiment directory you may find:
@@ -250,7 +250,7 @@ python eval_real_robot.py -i data/outputs/blah/checkpoints/latest.ckpt -o data/e
 ```
 Press "C" to start evaluation (handing control over to the policy). Press "S" to stop the current episode.
 
-### 🛝 The dataset and checkpoints from Collie
+### 🆕 The dataset and checkpoints from Collie
 
 For dataset you could download from: 
 [`https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link`](https://drive.google.com/file/d/1xGO__aXch2WRBjvLoDhuE3EI6Zwnn_rO/view?usp=drive_link)
@@ -300,8 +300,6 @@ Make sure the ABB YuMi's tasks: `t2_L` & `T_ROB_L` is running.
 ```
 
 https://github.com/user-attachments/assets/bd43a1ad-bd8f-4ca0-8da3-f26ecf6776f7
-
-
 
 ## 🗺️ Codebase Tutorial
 This codebase is structured under the requirement that:
@@ -465,16 +463,5 @@ Read and imitate:
 
 Make sure your workspace yaml's `_target_` points to the new workspace class you created.
 
-## 🏷️ License
-This repository is released under the MIT license. See [LICENSE](LICENSE) for additional details.
-
 ## 🙏 Acknowledgement
-* Our [`ConditionalUnet1D`](./diffusion_policy/model/diffusion/conditional_unet1d.py) implementation is adapted from [Planning with Diffusion](https://github.com/jannerm/diffuser).
-* Our [`TransformerForDiffusion`](./diffusion_policy/model/diffusion/transformer_for_diffusion.py) implementation is adapted from [MinGPT](https://github.com/karpathy/minGPT).
-* The [BET](./diffusion_policy/model/bet) baseline is adapted from [its original repo](https://github.com/notmahi/bet).
-* The [IBC](./diffusion_policy/policy/ibc_dfo_lowdim_policy.py) baseline is adapted from [Kevin Zakka's reimplementation](https://github.com/kevinzakka/ibc).
-* The [Robomimic](https://github.com/ARISE-Initiative/robomimic) tasks and [`ObservationEncoder`](https://github.com/ARISE-Initiative/robomimic/blob/master/robomimic/models/obs_nets.py) are used extensively in this project.
-* The [Push-T](./diffusion_policy/env/pusht) task is adapted from [IBC](https://github.com/google-research/ibc).
-* The [Block Pushing](./diffusion_policy/env/block_pushing) task is adapted from [BET](https://github.com/notmahi/bet) and [IBC](https://github.com/google-research/ibc).
-* The [Kitchen](./diffusion_policy/env/kitchen) task is adapted from [BET](https://github.com/notmahi/bet) and [Relay Policy Learning](https://github.com/google-research/relay-policy-learning).
-* Our [shared_memory](./diffusion_policy/shared_memory) data structures are heavily inspired by [shared-ndarray2](https://gitlab.com/osu-nrsg/shared-ndarray2).
+More information can be found on Columbia University's [progject page](https://diffusion-policy.cs.columbia.edu/).
