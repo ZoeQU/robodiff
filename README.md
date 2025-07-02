@@ -1,4 +1,4 @@
-# Diffusion Policy from Collie
+# Diffusion Policy for ABB YuMi (testing)
 
 <img src="media/teaser.png" alt="drawing" width="100%"/>
 <img src="media/multimodal_sim.png" alt="drawing" width="100%"/>
